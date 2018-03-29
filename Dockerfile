@@ -12,11 +12,7 @@ USER aqueduct
 RUN pub get --no-precompile
 
 USER root
-ADD ./lib /www/dartapp/
-ADD ./bin /www/dartapp/
-ADD ./test /www/dartapp/
-ADD *.yml /www/dartapp/
-ADD *.yaml /www/dartapp/
+ADD . /www/dartapp/
 RUN chown -R aqueduct:aqueduct /www/dartapp
 
 USER aqueduct
