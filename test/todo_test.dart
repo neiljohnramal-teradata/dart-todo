@@ -11,13 +11,15 @@ Future main() async {
     await app.stop();
   });
 
-  group("Success flow", () {
-    test("Can hit example endpoint", () async {
-      var request = app.client.request("/example");
+  group("Todos", () {
+    test("Can get all todos", () async {
+      TestRequest request = app.client.request("/todos");
 
-      var response = await request.get();
+      TestResponse response = await request.get();
       expect(response, hasResponse(200, {
-        "key": "value"
+        "todos": [
+          "Make a sandwich."
+        ]
       }));
     });
   });

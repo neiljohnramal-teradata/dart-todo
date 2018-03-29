@@ -1,4 +1,5 @@
 import 'dart_todo.dart';
+import 'controller/todo_controller.dart';
 
 /// This class handles setting up this application.
 ///
@@ -31,10 +32,8 @@ class DartTodoSink extends RequestSink {
     // Prefer to use `pipe` and `generate` instead of `listen`.
     // See: https://aqueduct.io/docs/http/request_controller/
     router
-      .route("/example")
-      .listen((request) async {
-        return new Response.ok({"key": "value"});
-      });
+      .route("/todos")
+      .generate(() => new TodoController());
   }
 
   /// Final initialization method for this instance.
