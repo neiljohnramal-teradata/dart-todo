@@ -1,11 +1,9 @@
 pipeline {
-  agent {
-    docker { image 'google/dart' }
-  }
+  agent { dockerfile true }
   stages {
     stage('Build') {
       steps {
-        sh 'pub get --no-precompile'
+        sh 'echo "Hello World!"'
       }
     }
 
