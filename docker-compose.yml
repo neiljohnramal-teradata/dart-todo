@@ -3,11 +3,8 @@ version: "3.0"
 services:
   todo_dart_app:
     container_name: todo_dart_app
-    build: https://github.com/neiljohnramal-teradata/dart-todo.git
+    build: .
     volumes:
       - '.:/www/dartapp'
     ports:
       - 9090:8000
-    environment:
-      - HOME=/home/aqueduct
-
