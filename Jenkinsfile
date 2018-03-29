@@ -3,9 +3,15 @@ pipeline {
     docker { image 'google/dart' }
   }
   stages {
-    stage('build') {
+    stage('Build') {
       steps {
-        sh 'dart --version'
+        sh 'pub get --no-precompile'
+      }
+    }
+
+    stage('Test') {
+      steps {
+        sh 'pub run test -r expanded'
       }
     }
   }
