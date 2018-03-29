@@ -3,13 +3,13 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'echo "Hello World!"'
+        sh 'docker-compose up -d --build'
       }
     }
 
     stage('Test') {
       steps {
-        sh 'pub run test -r expanded'
+        sh 'docker-compose run todo_dart_app pub run test -r expanded'
       }
     }
   }
