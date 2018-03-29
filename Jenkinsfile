@@ -1,5 +1,5 @@
 pipeline {
-  agent { dockerfile true }
+  agent any
   stages {
     stage('Build') {
       steps {
@@ -11,6 +11,12 @@ pipeline {
       steps {
         sh 'docker-compose run todo_dart_app pub run test -r expanded'
       }
+    }
+  }
+
+  post {
+    always {
+      sh 'docker-compose down -v'
     }
   }
 }
