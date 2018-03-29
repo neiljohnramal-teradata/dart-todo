@@ -1,6 +1,12 @@
 import 'dart_todo.dart';
 import 'controller/todo_controller.dart';
 
+class DartTodoConfigItem extends ConfigurationItem {
+  DartTodoConfigItem(String configPath) : super.fromFile(configPath);
+
+  DatabaseConnectionConfiguration database;
+}
+
 /// This class handles setting up this application.
 ///
 /// Override methods from [RequestSink] to set up the resources your
@@ -20,7 +26,18 @@ class DartTodoSink extends RequestSink {
   ///
   /// Configuration of database connections, [HTTPCodecRepository] and other per-isolate resources should be done in this constructor.
   DartTodoSink(ApplicationConfiguration appConfig) : super(appConfig) {
+    DartTodoConfigItem config = new DartTodoConfigItem(appConfig.configurationFilePath);
     logger.onRecord.listen((rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
+
+    ManagedDataModel dataModel = new ManagedDataModel.fromCurrentMirrorSystem();
+    PostgreSQLPersistentStore persistentStore = new PostgreSQLPersistentStore.fromConnectionInfo(
+      config.database.username, 
+      config.database.password,
+      config.database.host, 
+      config.database.port, 
+      config.database.databaseName);
+    
+    ManagedContext.defaultContext = new ManagedContext(dataModel, persistentStore);
   }
 
   /// All routes must be configured in this method.

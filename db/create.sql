@@ -1,0 +1,3 @@
+CREATE DATABASE todos_dev;
+CREATE DATABASE todos_test;
+CREATE DATABASE todos_prod;

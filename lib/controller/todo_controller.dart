@@ -1,21 +1,27 @@
 import '../dart_todo.dart';
+import '../model/todo.dart';
 
 class TodoController extends HTTPController {
-  List<String> todos = [
-    "Make a sandwich.",
-  ];
 
   @httpGet
   Future<Response> getAllTodos() async {
-    return new Response.ok({"todos": todos});
+    Query todosQuery = new Query<Todo>();
+    List<Todo> todos = await todosQuery.fetch();
+
+    return new Response.ok(todos);
   }
 
   @httpGet
   Future<Response> getTodo(@HTTPPath('index') int index) async {
-    if (index < 0 || index >= todos.length) {
+    Query todoQuery = new Query<Todo>()
+      ..where.id = whereEqualTo(index);
+
+    Todo todo = await todoQuery.fetchOne();
+
+    if (todo == null) {
       return new Response.notFound();
     }
 
-    return new Response.ok({"todo": todos[index]});
+    return new Response.ok(todo);
   }
 }

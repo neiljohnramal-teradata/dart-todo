@@ -30,7 +30,21 @@ class TestApplication {
 
     await application.start(runOnMainIsolate: true);
 
+    await createDatabaseSchema(ManagedContext.defaultContext);
+
     client = new TestClient(application);
+  }
+
+  /// Create the test database
+  static Future createDatabaseSchema(ManagedContext context) async {
+    SchemaBuilder builder = new SchemaBuilder.toSchema(
+      context.persistentStore,
+      new Schema.fromDataModel(context.dataModel),
+      isTemporary: true);
+
+    for (var cmd in builder.commands) {
+      await context.persistentStore.execute(cmd);
+    }
   }
 
   /// Stops running this application harness.

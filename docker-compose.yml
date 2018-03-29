@@ -1,6 +1,17 @@
-version: "3.0"
+version: "3"
 
 services:
+  todos-db:
+    container_name: todos-db
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  
   todo_dart_app:
     container_name: todo_dart_app
     build: .
@@ -10,3 +21,14 @@ services:
       - './test:/www/dartapp/test'
     ports:
       - 9090:8000
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASS=postgres
+      - POSTGRES_HOST=todos-db
+      - POSTGRES_PORT=5432
+      - DATABASE_NAME=todos_dev
+      - DATABASE_TEST_NAME=todos_test
+    depends_on:
+      - todos-db
+    links:
+      - todos-db

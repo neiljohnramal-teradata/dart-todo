@@ -20,4 +20,4 @@ RUN pub get --offline --no-precompile
 
 EXPOSE 8000
 
-CMD ["pub", "run", "aqueduct:aqueduct", "serve", "--port", "8000"]
+CMD ["./entrypoint.sh"]
