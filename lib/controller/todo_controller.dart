@@ -9,4 +9,13 @@ class TodoController extends HTTPController {
   Future<Response> getAllTodos() async {
     return new Response.ok({"todos": todos});
   }
+
+  @httpGet
+  Future<Response> getTodo(@HTTPPath('index') int index) async {
+    if (index < 0 || index >= todos.length) {
+      return new Response.notFound();
+    }
+
+    return new Response.ok({"todo": todos[index]});
+  }
 }

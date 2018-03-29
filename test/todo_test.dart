@@ -22,5 +22,21 @@ Future main() async {
         ]
       }));
     });
+
+    test("Can get a single todo by its index", () async {
+      TestRequest request = app.client.request("/todos/0");
+
+      TestResponse response = await request.get();
+      expect(response, hasResponse(200, {
+        "todo": "Make a sandwich."
+      }));
+    });
+
+    test("Returns 404 when todo does not exist", () async {
+      TestRequest request = app.client.request("/todos/9999");
+
+      TestResponse response = await request.get();
+      expect(response, hasStatus(404));
+    });
   });
 }
