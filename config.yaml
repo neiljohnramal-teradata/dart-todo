@@ -1,0 +1,6 @@
+database:
+  username: postgres
+  password: postgres
+  host: todos-db
+  port: 5432
+  databaseName: todos_dev
