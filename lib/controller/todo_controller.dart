@@ -24,4 +24,14 @@ class TodoController extends HTTPController {
 
     return new Response.ok(todo);
   }
+
+  @httpPost
+  Future<Response> createTodo(@HTTPBody() Todo todo) async {
+    Query query = new Query<Todo>()
+      ..values = todo;
+
+    Todo newTodo = await query.insert();
+
+    return new Response.created("/todos", body: newTodo);
+  }
 }

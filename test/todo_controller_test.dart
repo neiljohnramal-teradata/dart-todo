@@ -47,5 +47,17 @@ Future main() async {
     test("Returns 404 when todo does not exist", () async {
       expectResponse(await app.client.request("/todos/99999").get(), 404);
     });
+
+    test("Adds a new todo", () async {
+      TestRequest request = app.client.request("/todos")
+        ..json = { "description": "A new todo." };
+      expectResponse(
+        await request.post(), 
+        201, 
+        body: allOf([
+          containsPair("description", "A new todo."),
+          containsPair("id", 3),
+        ]));
+    });
   });
 }
