@@ -49,7 +49,7 @@ class DartTodoSink extends RequestSink {
     // Prefer to use `pipe` and `generate` instead of `listen`.
     // See: https://aqueduct.io/docs/http/request_controller/
     router
-      .route("/todos/[:index]")
+      .route("/todos/[:id]")
       .generate(() => new TodoController());
   }
 
