@@ -73,5 +73,13 @@ Future main() async {
           containsPair("id", 1),
         ]));
     });
+
+    test("Deletes a todo", () async {
+      expectResponse(
+        await app.client.request("/todos/3").delete(),
+        200,
+        body: containsPair("message", "Todo deleted."),
+      );
+    });
   });
 }

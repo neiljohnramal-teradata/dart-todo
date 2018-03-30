@@ -45,4 +45,14 @@ class TodoController extends HTTPController {
 
     return new Response.ok(updatedTodo);
   }
+
+  @httpDelete
+  Future<Response> deleteTodo(@HTTPPath('id') int id) async {
+    Query query = new Query<Todo>()
+      ..where.id = id;
+
+    await query.delete();
+
+    return new Response.ok({"message": "Todo deleted."});
+  }
 }
