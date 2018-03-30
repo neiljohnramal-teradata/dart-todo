@@ -41,6 +41,10 @@ class TodoController extends HTTPController {
       ..values.description = todo.description
       ..where.id = id;
 
+    if (await query.fetchOne() == null) {
+      return new Response.notFound();
+    }
+
     Todo updatedTodo = await query.updateOne();
 
     return new Response.ok(updatedTodo);
@@ -50,6 +54,10 @@ class TodoController extends HTTPController {
   Future<Response> deleteTodo(@HTTPPath('id') int id) async {
     Query query = new Query<Todo>()
       ..where.id = id;
+
+    if (await query.fetchOne() == null) {
+      return new Response.notFound();
+    }
 
     await query.delete();
 

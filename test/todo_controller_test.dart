@@ -74,12 +74,23 @@ Future main() async {
         ]));
     });
 
+    test("Returns a 404 when a todo does not exist to be updated", () async {
+      String newTodo = "Does not exist.";
+      TestRequest request = app.client.request("/todos/9999")
+        ..json = { "description": newTodo };
+      expectResponse(await request.put(), 404);
+    });
+
     test("Deletes a todo", () async {
       expectResponse(
         await app.client.request("/todos/3").delete(),
         200,
         body: containsPair("message", "Todo deleted."),
       );
+    });
+
+    test("Returns a 404 when a todo does not exist to be deleted", () async {
+      expectResponse(await app.client.request("/todos/9999").delete(), 404);
     });
   });
 }
