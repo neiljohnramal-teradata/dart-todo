@@ -59,5 +59,19 @@ Future main() async {
           containsPair("id", 3),
         ]));
     });
+
+    test("Updates a todo", () async {
+      String newTodo = "Make a pizza.";
+      TestRequest request = app.client.request("/todos/1")
+        ..json = { "description": newTodo };
+
+      expectResponse(
+        await request.put(),
+        200,
+        body: allOf([
+          containsPair("description", newTodo),
+          containsPair("id", 1),
+        ]));
+    });
   });
 }
